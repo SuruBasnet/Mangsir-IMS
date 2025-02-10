@@ -10,11 +10,11 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     image = models.FileField(upload_to='media/user/')
     groups = models.ForeignKey(Group,on_delete=models.SET_NULL,null=True,blank=True)
+    is_active = models.BooleanField(default=False)
+    otp = models.IntegerField(null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
-
-    
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
@@ -35,7 +35,7 @@ class Purchase(models.Model):
     price = models.FloatField()
     quantity = models.IntegerField()
     product_id = models.ForeignKey(Product,on_delete=models.CASCADE)
-    vendor_id = models.ForeignKey('Vendor',on_delete=models.CASCADE)
+    vendor_id = models.ForeignKey('Vendor',on_delete=models.CASCADE,null=True,blank=True)
     user_id = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
 
 class Sell(models.Model):
